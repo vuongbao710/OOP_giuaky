@@ -1,29 +1,37 @@
 package doangiuaky.nhanSu;
 
+import doangiuaky.Enum.LoaiChucVu;
 import java.time.LocalDate;
 
 public abstract class NhanVien {
-    private String MaNV;       
+    private String MaNV;
+    private String CCCD;
     private String HoTen;
-    private LocalDate NgaySinh;
     private String SDT;
-    private String MaPhongBan;    
+    private String MaPhongBan;
+    private String MaQuanLyPhuTrach;
+    private LocalDate NgaySinh;
     private LocalDate NgayVaoLam;
-    private String ChucVu;
+    private LoaiChucVu ChucVu;
 
     public NhanVien() {
     }
 
-    public NhanVien(String MaNV, String HoTen, LocalDate NgaySinh, String ChucVu, String SDT, String MaPhongBan, LocalDate NgayVaoLam) {
+    public NhanVien(String MaNV, String CCCD, String HoTen, String SDT, String MaPhongBan, String MaQuanLyPhuTrach, LocalDate NgaySinh, LocalDate NgayVaoLam, String ChucVu) {
         this.MaNV = MaNV;
+        this.CCCD = CCCD;
         this.HoTen = HoTen;
-        this.NgaySinh = NgaySinh;
         this.SDT = SDT;
         this.MaPhongBan = MaPhongBan;
+        this.MaQuanLyPhuTrach = MaQuanLyPhuTrach;
+        this.NgaySinh = NgaySinh;
         this.NgayVaoLam = NgayVaoLam;
+        this.ChucVu = LoaiChucVu.NhanDien(ChucVu);
     }
 
-    public abstract long tinhLuongThucTe();
+    
+
+    public abstract double TinhLuongThucTe();
 
     public String getMaNV() {
         return MaNV;
@@ -49,11 +57,15 @@ public abstract class NhanVien {
         this.NgaySinh = NgaySinh;
     }
 
-    public String getChucVu() {
+    public LoaiChucVu getChucVu() {
         return ChucVu;
     }
+    
+    public String getMoTaChucVu(){
+        return ChucVu.getMoTa();
+    }
 
-    public void setChucVu(String ChucVu) {
+    public void setChucVu(LoaiChucVu ChucVu) {
         this.ChucVu = ChucVu;
     }
 
@@ -83,6 +95,9 @@ public abstract class NhanVien {
 
     @Override
     public String toString() {
-        return "Ma NV: " + MaNV + ", Ho ten: " + HoTen + ", Ngay sinh: " + NgaySinh + ", Chuc vu: " + ChucVu + ", So dien thoai: " + SDT + ", Ma phong ban: " + MaPhongBan + ", Ngay vao lam: " + NgayVaoLam + ", Luong co ban: " + tinhLuongThucTe();
+        return "Ma NV: " + MaNV + ", Ho ten: " + HoTen 
+                + ", Ngay sinh: " + NgaySinh + ", Chuc vu: " 
+                + ChucVu + ", So dien thoai: " + SDT + ", Ma phong ban: " 
+                + MaPhongBan + ", Ngay vao lam: " + NgayVaoLam + ", Luong co ban: " + TinhLuongThucTe();
     }
 }
