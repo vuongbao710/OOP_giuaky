@@ -36,7 +36,7 @@ public class DanhSachKhenThuongKyLuat {
         }
 
         // Kiem tra nhan vien nhan quyet dinh co ton tai khong
-        NhanVien nv = dsnv.timTheoMa(
+        NhanVien nv = dsnv.timNhanVien(
                 qd.getMaNhanVienNhanQD()
         );
 
