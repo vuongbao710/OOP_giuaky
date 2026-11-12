@@ -1,6 +1,4 @@
-
 package doangiuaky.KhenThuong;
-
 import doangiuaky.nhanSu.DanhSachNhanVien;
 import doangiuaky.nhanSu.NhanVien;
 import java.util.ArrayList;
@@ -45,7 +43,7 @@ public class DanhSachKhenThuongKyLuat {
         if (nv == null) {
             return false;
         }
-
+ 
         // Neu la khen thuong thi kiem tra quy tac
         if (qd instanceof KhenThuong) {
 

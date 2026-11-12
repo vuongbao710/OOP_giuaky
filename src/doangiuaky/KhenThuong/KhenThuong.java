@@ -1,5 +1,5 @@
-
 package doangiuaky.KhenThuong;
+import doangiuaky.nhanSu.NhanVien;
 import java.time.LocalDate;
 import java.time.Period;
 public class KhenThuong extends KhenThuongKyLuat {
