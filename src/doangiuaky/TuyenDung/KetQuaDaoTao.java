@@ -1,17 +1,16 @@
 package doangiuaky.tuyenDungDaoTao;
 
-import java.util.ArrayList;
-
 public class KetQuaDaoTao {
     public static final int DIEM_DAT_DAO_TAO = 50;
 
     private String MaKetQua;
-    private String MaUngVien;
-    private String MaKhoaHoc;
     private int DiemSo;
     private String KetQua;
+    private String MaUngVien;
+    private String MaKhoaHoc;
 
-    public KetQuaDaoTao() { }
+    public KetQuaDaoTao() {
+    }
 
     public KetQuaDaoTao(String MaKetQua, String MaUngVien, String MaKhoaHoc, int DiemSo) {
         this.MaKetQua = MaKetQua;
@@ -23,14 +22,6 @@ public class KetQuaDaoTao {
     public String getMaKetQua() { return MaKetQua; }
 
     public void setMaKetQua(String MaKetQua) { this.MaKetQua = MaKetQua; }
-
-    public String getMaUngVien() { return MaUngVien; }
-
-    public void setMaUngVien(String MaUngVien) { this.MaUngVien = MaUngVien; }
-
-    public String getMaKhoaHoc() { return MaKhoaHoc; }
-
-    public void setMaKhoaHoc(String MaKhoaHoc) { this.MaKhoaHoc = MaKhoaHoc; }
 
     public int getDiemSo() { return DiemSo; }
 
@@ -44,6 +35,14 @@ public class KetQuaDaoTao {
 
     public String getKetQua() { return KetQua; }
 
+    public String getMaUngVien() { return MaUngVien; }
+
+    public void setMaUngVien(String MaUngVien) { this.MaUngVien = MaUngVien; }
+
+    public String getMaKhoaHoc() { return MaKhoaHoc; }
+
+    public void setMaKhoaHoc(String MaKhoaHoc) { this.MaKhoaHoc = MaKhoaHoc; }
+
     public void DanhGia() {
         if (this.DiemSo >= DIEM_DAT_DAO_TAO) {
             this.KetQua = "Dat";
@@ -54,10 +53,10 @@ public class KetQuaDaoTao {
 
     @Override
     public String toString() {
-        return "Ma ket qua: " + MaKetQua + 
-               ", Ma ung vien: " + MaUngVien + 
-               ", Ma khoa hoc: " + MaKhoaHoc + 
-               ", Diem so: " + DiemSo + 
+        return "Ma ket qua: " + MaKetQua +
+               ", Ma ung vien: " + MaUngVien +
+               ", Ma khoa hoc: " + MaKhoaHoc +
+               ", Diem so: " + DiemSo +
                ", Ket qua: " + KetQua;
     }
 }
