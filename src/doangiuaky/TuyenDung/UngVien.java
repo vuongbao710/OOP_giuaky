@@ -1,58 +1,93 @@
 package doangiuaky.tuyenDungDaoTao;
 
 import java.time.LocalDate;
-import java.util.ArrayList;v
 
 public class UngVien {
     private String MaUngVien;
+    private String MaDotTuyenDung;
+    private String MaViTriUngTuyen;
+    private String CCCD;
     private String HoTen;
     private String SDT;
-    private LocalDate NgaySinh;
-    private String MaDotTuyenDung;
-    private String viTriUngTuyen;
+    private LocalDate NgayThangNamSinh;
 
-    public UngVien() {}
-
-    public UngVien(String MaUngVien, String HoTen, String SDT, LocalDate NgaySinh, String MaDotTuyenDung, String viTriUngTuyen) {
-        this.MaUngVien = MaUngVien;
-        this.HoTen = HoTen;
-        this.SDT = SDT;
-        this.NgaySinh = NgaySinh;
-        this.MaDotTuyenDung = MaDotTuyenDung;
-        this.viTriUngTuyen = viTriUngTuyen;
+    public UngVien() {
     }
 
-    public String getMaUngVien() { return MaUngVien;}
+    public UngVien(String MaUngVien, String MaDotTuyenDung, String MaViTriUngTuyen, String CCCD, String HoTen, String SDT, LocalDate NgayThangNamSinh) {
+        this.MaUngVien = MaUngVien;
+        this.MaDotTuyenDung = MaDotTuyenDung;
+        this.MaViTriUngTuyen = MaViTriUngTuyen;
+        this.CCCD = CCCD;
+        this.HoTen = HoTen;
+        this.SDT = SDT;
+        this.NgayThangNamSinh = NgayThangNamSinh;
+    }
 
-    public void setMaUngVien(String MaUngVien) { this.MaUngVien = MaUngVien; }
+    public String getMaUngVien() {
+        return MaUngVien;
+    }
 
-    public String getHoTen() { return HoTen; }
+    public void setMaUngVien(String MaUngVien) {
+        this.MaUngVien = MaUngVien;
+    }
 
-    public void setHoTen(String HoTen) { this.HoTen = HoTen; }
+    public String getMaDotTuyenDung() {
+        return MaDotTuyenDung;
+    }
 
-    public String getSDT() { return SDT; }
+    public void setMaDotTuyenDung(String MaDotTuyenDung) {
+        this.MaDotTuyenDung = MaDotTuyenDung;
+    }
 
-    public void setSDT(String SDT) { this.SDT = SDT;}
+    public String getMaViTriUngTuyen() {
+        return MaViTriUngTuyen;
+    }
 
-    public LocalDate getNgaySinh() { return NgaySinh; }
+    public void setMaViTriUngTuyen(String MaViTriUngTuyen) {
+        this.MaViTriUngTuyen = MaViTriUngTuyen;
+    }
 
-    public void setNgaySinh(LocalDate NgaySinh) { this.NgaySinh = NgaySinh; }
+    public String getCCCD() {
+        return CCCD;
+    }
 
-    public String getMaDotTuyenDung() { return MaDotTuyenDung; }
+    public void setCCCD(String CCCD) {
+        this.CCCD = CCCD;
+    }
 
-    public void setMaDotTuyenDung(String MaDotTuyenDung) { this.MaDotTuyenDung = MaDotTuyenDung; }
+    public String getHoTen() {
+        return HoTen;
+    }
 
-    public String getViTriUngTuyen() { return viTriUngTuyen; }
+    public void setHoTen(String HoTen) {
+        this.HoTen = HoTen;
+    }
 
-    public void setViTriUngTuyen(String viTriUngTuyen) { this.viTriUngTuyen = viTriUngTuyen; }
+    public String getSDT() {
+        return SDT;
+    }
+
+    public void setSDT(String SDT) {
+        this.SDT = SDT;
+    }
+
+    public LocalDate getNgayThangNamSinh() {
+        return NgayThangNamSinh;
+    }
+
+    public void setNgayThangNamSinh(LocalDate NgayThangNamSinh) {
+        this.NgayThangNamSinh = NgayThangNamSinh;
+    }
 
     @Override
     public String toString() {
-        return "Ma ung vien: " + MaUngVien + 
-               ", Ho ten: " + HoTen + 
-               ", SDT: " + SDT + 
-               ", Ngay sinh: " + NgaySinh + 
-               ", Ma dot tuyen dung: " + MaDotTuyenDung + 
-               ", Vi tri ung tuyen: " + viTriUngTuyen;
+        return "Ma ung vien: " + MaUngVien +
+               ", Ma dot tuyen dung: " + MaDotTuyenDung +
+               ", Ma vi tri ung tuyen: " + MaViTriUngTuyen +
+               ", CCCD: " + CCCD +
+               ", Ho ten: " + HoTen +
+               ", SDT: " + SDT +
+               ", Ngay sinh: " + NgayThangNamSinh;
     }
 }
