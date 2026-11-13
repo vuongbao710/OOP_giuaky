@@ -1,39 +1,70 @@
 package doangiuaky.tuyenDungDaoTao;
 
-import java.util.ArrayList;
+import doangiuaky.Interface.DanhSach;
+import java.util.Arrays;
 
-public class DanhSachDotTuyenDung {
-    private final ArrayList<DotTuyenDung> ds;
+public class DanhSachDotTuyenDung implements DanhSach<DotTuyenDung> {
+    private DotTuyenDung[] ds;
+    private int soLuong;
 
     public DanhSachDotTuyenDung() {
-        this.ds = new ArrayList<>();
+        this.ds = new DotTuyenDung[100];
+        this.soLuong = 0;
     }
 
-    public boolean them(DotTuyenDung dtd) {
-        if (timTheoMa(dtd.getMaDotTuyenDung()) != null) {
-            return false;
+    @Override
+    public void them(DotTuyenDung dtd) {
+        if (dtd == null || timKiem(dtd.getMaDotTuyenDung()) != null) {
+            return;
         }
-        return this.ds.add(dtd);
+        if (soLuong >= ds.length) {
+            ds = Arrays.copyOf(ds, ds.length * 2);
+        }
+        ds[soLuong++] = dtd;
     }
 
-    public boolean xoa(String MaDot) {
-        DotTuyenDung dtd = timTheoMa(MaDot);
+    @Override
+    public void xoa(DotTuyenDung dtd) {
         if (dtd != null) {
-            return this.ds.remove(dtd);
+            xoaTheoMa(dtd.getMaDotTuyenDung());
+        }
+    }
+
+    public boolean xoaTheoMa(String MaDot) {
+        for (int i = 0; i < soLuong; i++) {
+            if (ds[i].getMaDotTuyenDung().equalsIgnoreCase(MaDot)) {
+                for (int j = i; j < soLuong - 1; j++) {
+                    ds[j] = ds[j + 1];
+                }
+                ds[--soLuong] = null;
+                return true;
+            }
         }
         return false;
     }
 
-    public DotTuyenDung timTheoMa(String MaDot) {
-        for (DotTuyenDung dtd : ds) {
-            if (dtd.getMaDotTuyenDung().equalsIgnoreCase(MaDot)) {
-                return dtd;
+    @Override
+    public DotTuyenDung timKiem(String MaDot) {
+        for (int i = 0; i < soLuong; i++) {
+            if (ds[i].getMaDotTuyenDung().equalsIgnoreCase(MaDot)) {
+                return ds[i];
             }
         }
         return null;
     }
 
-    public ArrayList<DotTuyenDung> layTatCa() {
-        return ds;
+    @Override
+    public void xuat() {
+        for (int i = 0; i < soLuong; i++) {
+            System.out.println(ds[i]);
+        }
+    }
+
+    public DotTuyenDung[] layTatCa() {
+        return Arrays.copyOf(ds, soLuong);
+    }
+
+    public int getSoLuong() {
+        return soLuong;
     }
 }
