@@ -1,34 +1,52 @@
 package doangiuaky.tuyenDungDaoTao;
 
+import doangiuaky.Interface.DanhSach;
 import java.util.ArrayList;
 
-public class DanhSachKetQuaDaoTao {
+public class DanhSachKetQuaDaoTao implements DanhSach<KetQuaDaoTao> {
     private final ArrayList<KetQuaDaoTao> ds;
 
-    public DanhSachKetQuaDaoTao() { this.ds = new ArrayList<>(); }
-
-    public boolean them(KetQuaDaoTao kq) {
-        if (timTheoMa(kq.getMaKetQua()) != null) {
-            return false;
-        }
-        return this.ds.add(kq);
+    public DanhSachKetQuaDaoTao() {
+        this.ds = new ArrayList<>();
     }
 
-    public boolean xoa(String MaKetQua) {
-        KetQuaDaoTao kq = timTheoMa(MaKetQua);
+    @Override
+    public void them(KetQuaDaoTao kq) {
+        if (kq != null && timKiem(kq.getMaKetQua()) == null) {
+            this.ds.add(kq);
+        }
+    }
+
+    @Override
+    public void xoa(KetQuaDaoTao kq) {
+        if (kq != null) {
+            this.ds.remove(kq);
+        }
+    }
+
+    public boolean xoaTheoMa(String MaKetQua) {
+        KetQuaDaoTao kq = timKiem(MaKetQua);
         if (kq != null) {
             return this.ds.remove(kq);
         }
         return false;
     }
 
-    public KetQuaDaoTao timTheoMa(String MaKetQua) {
+    @Override
+    public KetQuaDaoTao timKiem(String MaKetQua) {
         for (KetQuaDaoTao kq : ds) {
             if (kq.getMaKetQua().equalsIgnoreCase(MaKetQua)) {
                 return kq;
             }
         }
         return null;
+    }
+
+    @Override
+    public void xuat() {
+        for (KetQuaDaoTao kq : ds) {
+            System.out.println(kq);
+        }
     }
 
     public ArrayList<String> layUngVienDat() {
