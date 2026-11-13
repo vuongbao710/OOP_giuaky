@@ -1,61 +1,139 @@
 package doangiuaky.tuyenDungDaoTao;
 
-import doangiuaky.nhanSu.*;
+import doangiuaky.Enum.ViTri;
+import doangiuaky.nhanSu.DanhSachNhanVien;
+import doangiuaky.nhanSu.DanhSachPhongBan;
+import doangiuaky.nhanSu.NhanVien;
+import doangiuaky.nhanSu.NhanVienFullTime;
+import doangiuaky.nhanSu.NhanVienPartTime;
+import doangiuaky.nhanSu.PhongBan;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class XuLyTuyenDung {
     private static int autoIncrementNV = 3; // Tiếp nối NV01, NV02 của dữ liệu mẫu
 
-    public static NhanVienCapDuoi chuyenThanhNhanVien(UngVien uv, String MaPhongBan, String MaQuanLy, DanhSachNhanVien dsnv, DanhSachPhongBan dspb) {
+    // Chuyển 1 ứng viên thành Nhân viên (có cập nhật vào DanhSachPhongBan)
+    public static NhanVien chuyenThanhNhanVien(
+            UngVien uv,
+            DanhSachDotTuyenDung dsDot,
+            DanhSachNhanVien dsnv,
+            DanhSachPhongBan dspb) {
         if (uv == null) return null;
 
-        // Sinh mã NV dạng NV03, NV04...
-        String maNVMoi = String.format("NV%02d", autoIncrementNV++);
-        
-        NhanVienCapDuoi nvMoi = new NhanVienCapDuoi(
-            maNVMoi,
-            uv.getHoTen(),
-            uv.getNgaySinh(),
-            "Nhan vien",
-            uv.getSDT(),
-            MaPhongBan,
-            LocalDate.now(),
-            MaQuanLy
-        );
+        String maPhongBan = "PB01";
+        String maQuanLy = "QL01";
+        boolean isFullTime = true;
 
-        // Thêm vào danh sách nhân viên chung
-        dsnv.themNhanVien(nvMoi);
+        DotTuyenDung dot = dsDot.timKiem(uv.getMaDotTuyenDung());
+        if (dot != null) {
+            if (dot.getMaNguoiDuyet() != null) {
+                maQuanLy = dot.getMaNguoiDuyet();
+            }
+            ViTriTuyenDung vtTuyen = dot.timViTri(uv.getMaViTriUngTuyen());
+            if (vtTuyen != null && vtTuyen.getMaPhongBan() != null) {
+                maPhongBan = vtTuyen.getMaPhongBan();
+            }
+        }
 
-        // Cập nhật cấp dưới cho Quản lý phụ trách
-        NhanVien ql = dsnv.timNhanVien(MaQuanLy);
-        if (ql instanceof QuanLy) {
-            ((QuanLy) ql).themNhanVienCapDuoi(nvMoi);
+        // Nếu có DanhSachPhongBan, lấy MaTruongPhong làm người quản lý trực tiếp
+        PhongBan pb = (dspb != null) ? dspb.timPhongBan(maPhongBan) : null;
+        if (pb != null && pb.getMaTruongPhong() != null) {
+            maQuanLy = pb.getMaTruongPhong();
+        }
+
+        ViTri viTriEnum = ViTri.NhanDien(uv.getMaViTriUngTuyen());
+        if (viTriEnum != null) {
+            isFullTime = viTriEnum.isFullTime();
+        }
+
+        NhanVien nvMoi = chuyenThanhNhanVien(uv, maPhongBan, maQuanLy, isFullTime, dsnv);
+
+        // Thêm nhân viên mới vào danh sách nhân viên của Phòng ban tương ứng
+        if (nvMoi != null && pb != null) {
+            pb.getdanhsachnhanvien().add(nvMoi);
         }
 
         return nvMoi;
     }
 
-    public static ArrayList<NhanVienCapDuoi> chuyenTatCaUngVienDat(
-            DanhSachUngVien dsuv, 
-            DanhSachKetQuaDaoTao dskq, 
-            String MaPhongBan, 
-            String MaQuanLy, 
-            DanhSachNhanVien dsnv, 
+    // Chuyển 1 ứng viên thành Nhân viên (không cần DanhSachPhongBan)
+    public static NhanVien chuyenThanhNhanVien(UngVien uv, DanhSachDotTuyenDung dsDot, DanhSachNhanVien dsnv) {
+        return chuyenThanhNhanVien(uv, dsDot, dsnv, null);
+    }
+
+    // Chuyển 1 ứng viên thành Nhân viên (truyền tường minh)
+    public static NhanVien chuyenThanhNhanVien(
+            UngVien uv,
+            String MaPhongBan,
+            String MaQuanLyPhuTrach,
+            boolean isFullTime,
+            DanhSachNhanVien dsnv) {
+        if (uv == null) return null;
+
+        String maNVMoi = String.format("NV%02d", autoIncrementNV++);
+        NhanVien nvMoi;
+
+        // Khớp thứ tự tham số constructor của NhanVienFullTime / NhanVienPartTime (MaQuanLyPhuTrach trước MaPhongBan)
+        if (isFullTime) {
+            nvMoi = new NhanVienFullTime(
+                maNVMoi,
+                uv.getCCCD(),
+                uv.getHoTen(),
+                uv.getSDT(),
+                MaQuanLyPhuTrach,
+                MaPhongBan,
+                uv.getNgayThangNamSinh(),
+                LocalDate.now(),
+                "nhân viên"
+            );
+        } else {
+            nvMoi = new NhanVienPartTime(
+                maNVMoi,
+                uv.getCCCD(),
+                uv.getHoTen(),
+                uv.getSDT(),
+                MaQuanLyPhuTrach,
+                MaPhongBan,
+                uv.getNgayThangNamSinh(),
+                LocalDate.now(),
+                "thời vụ"
+            );
+        }
+
+        dsnv.themNhanVien(nvMoi);
+        return nvMoi;
+    }
+
+    // Chuyển toàn bộ ứng viên đạt đào tạo (kèm cập nhật vào Phòng ban)
+    public static ArrayList<NhanVien> chuyenTatCaUngVienDat(
+            DanhSachUngVien dsuv,
+            DanhSachKetQuaDaoTao dskq,
+            DanhSachDotTuyenDung dsDot,
+            DanhSachNhanVien dsnv,
             DanhSachPhongBan dspb) {
 
-        ArrayList<NhanVienCapDuoi> dsNVMoi = new ArrayList<>();
+        ArrayList<NhanVien> dsNVMoi = new ArrayList<>();
         ArrayList<String> dsMaUVDat = dskq.layUngVienDat();
 
         for (String maUV : dsMaUVDat) {
-            UngVien uv = dsuv.timTheoMa(maUV);
+            UngVien uv = dsuv.timKiem(maUV);
             if (uv != null) {
-                NhanVienCapDuoi nvMoi = chuyenThanhNhanVien(uv, MaPhongBan, MaQuanLy, dsnv, dspb);
+                NhanVien nvMoi = chuyenThanhNhanVien(uv, dsDot, dsnv, dspb);
                 if (nvMoi != null) {
                     dsNVMoi.add(nvMoi);
                 }
             }
         }
         return dsNVMoi;
+    }
+
+    // Bản giữ tương thích khi không truyền DanhSachPhongBan
+    public static ArrayList<NhanVien> chuyenTatCaUngVienDat(
+            DanhSachUngVien dsuv,
+            DanhSachKetQuaDaoTao dskq,
+            DanhSachDotTuyenDung dsDot,
+            DanhSachNhanVien dsnv) {
+        return chuyenTatCaUngVienDat(dsuv, dskq, dsDot, dsnv, null);
     }
 }
