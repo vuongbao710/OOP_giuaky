@@ -29,7 +29,13 @@ public abstract class NhanVien {
         this.ChucVu = LoaiChucVu.NhanDien(ChucVu);
     }
 
-    
+    public String getMaQuanLyPhuTrach() {
+        return MaQuanLyPhuTrach;
+    }
+
+    public void setMaQuanLyPhuTrach(String MaQuanLyPhuTrach) {
+        this.MaQuanLyPhuTrach = MaQuanLyPhuTrach;
+    }
 
     public abstract double TinhLuongThucTe();
 
