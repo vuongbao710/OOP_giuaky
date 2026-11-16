@@ -1,18 +1,15 @@
 package doangiuaky.KhenThuong;
+import doangiuaky.Enum.LoaiKhenThuong;
 import doangiuaky.nhanSu.NhanVien;
 import java.time.LocalDate;
 import java.time.Period;
 public class KhenThuong extends KhenThuongKyLuat {
 
-    public static final String THUONG_TET = "Thuong tet";
-    public static final String THUONG_SANG_KIEN = "Thuong sang kien";
-    public static final String THUONG_THAM_NIEN = "Thuong tham nien";
-
-    private String loaiKhenThuong;
+    private LoaiKhenThuong loaiKhenThuong;
 
     public KhenThuong(String maQD, LocalDate ngayBanHanh,
             long soTienTacDong, String maNhanVienRaQD,
-            String maNhanVienNhanQD, String loaiKhenThuong) {
+            String maNhanVienNhanQD, LoaiKhenThuong loaiKhenThuong) {
 
         super(maQD, ngayBanHanh, soTienTacDong,
                 maNhanVienRaQD, maNhanVienNhanQD);
@@ -20,17 +17,15 @@ public class KhenThuong extends KhenThuongKyLuat {
         setLoaiKhenThuong(loaiKhenThuong);
     }
 
-    public String getLoaiKhenThuong() {
+    public LoaiKhenThuong getLoaiKhenThuong() {
         return loaiKhenThuong;
     }
 
-    public void setLoaiKhenThuong(String loaiKhenThuong) {
-        if (!THUONG_TET.equals(loaiKhenThuong)
-                && !THUONG_SANG_KIEN.equals(loaiKhenThuong)
-                && !THUONG_THAM_NIEN.equals(loaiKhenThuong)) {
+    public void setLoaiKhenThuong(LoaiKhenThuong loaiKhenThuong) {
 
+        if (loaiKhenThuong == null) {
             throw new IllegalArgumentException(
-                "Loai khen thuong khong hop le!"
+                "Loai khen thuong khong duoc null!"
             );
         }
 
@@ -55,19 +50,20 @@ public class KhenThuong extends KhenThuongKyLuat {
         }
 
         // Thuong tet: chi hop le trong thang 11 hoac 12
-        if (THUONG_TET.equals(loaiKhenThuong)) {
+        if (loaiKhenThuong == LoaiKhenThuong.THUONG_TET) {
+
             int thang = getNgayBanHanh().getMonthValue();
 
             return thang == 11 || thang == 12;
         }
 
         // Thuong sang kien: luon hop le
-        if (THUONG_SANG_KIEN.equals(loaiKhenThuong)) {
+        if (loaiKhenThuong == LoaiKhenThuong.THUONG_SANG_KIEN) {
             return true;
         }
 
         // Thuong tham nien: xet moc 3, 5, 10 nam
-        if (THUONG_THAM_NIEN.equals(loaiKhenThuong)) {
+        if (loaiKhenThuong == LoaiKhenThuong.THUONG_THAM_NIEN) {
 
             LocalDate ngayVaoLam = nv.getNgayVaoLam();
 
@@ -84,9 +80,7 @@ public class KhenThuong extends KhenThuongKyLuat {
                     getNgayBanHanh()
             ).getYears();
 
-            return soNam >= 3 && (soNam == 3
-                    || soNam == 5
-                    || soNam == 10);
+            return soNam == 3 || soNam == 5 || soNam == 10;
         }
 
         return false;

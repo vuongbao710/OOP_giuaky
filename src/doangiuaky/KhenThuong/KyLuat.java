@@ -1,21 +1,13 @@
-
 package doangiuaky.KhenThuong;
-
+import doangiuaky.Enum.LoaiKyLuat;
 import java.time.LocalDate;
-
 public class KyLuat extends KhenThuongKyLuat {
 
-    public static final String PHAT_VANG_KHONG_PHEP =
-            "Phat vang khong phep";
-
-    public static final String PHAT_DI_TRE =
-            "Phat di tre";
-
-    private String loaiKyLuat;
+    private LoaiKyLuat loaiKyLuat;
 
     public KyLuat(String maQD, LocalDate ngayBanHanh,
             long soTienTacDong, String maNhanVienRaQD,
-            String maNhanVienNhanQD, String loaiKyLuat) {
+            String maNhanVienNhanQD, LoaiKyLuat loaiKyLuat) {
 
         super(maQD, ngayBanHanh, soTienTacDong,
                 maNhanVienRaQD, maNhanVienNhanQD);
@@ -23,16 +15,15 @@ public class KyLuat extends KhenThuongKyLuat {
         setLoaiKyLuat(loaiKyLuat);
     }
 
-    public String getLoaiKyLuat() {
+    public LoaiKyLuat getLoaiKyLuat() {
         return loaiKyLuat;
     }
 
-    public void setLoaiKyLuat(String loaiKyLuat) {
-        if (!PHAT_VANG_KHONG_PHEP.equals(loaiKyLuat)
-                && !PHAT_DI_TRE.equals(loaiKyLuat)) {
+    public void setLoaiKyLuat(LoaiKyLuat loaiKyLuat) {
 
+        if (loaiKyLuat == null) {
             throw new IllegalArgumentException(
-                "Loai ky luat khong hop le!"
+                "Loai ky luat khong duoc null!"
             );
         }
 
